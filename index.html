@@ -6,7 +6,7 @@
   <style>
     body {
       margin: 0;
-      background: url('https://i.postimg.cc/Ghwg1TZF/xc123.png') no-repeat center center fixed;
+      background: url('https://i.postimg.cc/XY1yk7pj/Captura-de-pantalla-2025-07-04-203013.png') no-repeat center center fixed;
       background-size: cover;
       font-family: Arial, sans-serif;
       color: white;
@@ -26,7 +26,6 @@
       margin-bottom: 30px;
       border-radius: 8px;
       box-shadow: 0 0 12px 2px #000;
-      background: #222;
     }
     .form-container {
       background-color: rgba(0, 0, 0, 0.90);
@@ -44,8 +43,6 @@
       font-weight: bold;
       margin-bottom: 25px;
       text-align: center;
-      font-family: inherit;
-      letter-spacing: 1px;
       text-shadow: 1px 1px 8px #000;
     }
     .form-fields {
@@ -58,20 +55,19 @@
     .form-group {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      margin-bottom: 10px;
+      position: relative;
     }
     label {
       font-size: 1.1rem;
       margin-bottom: 6px;
       margin-left: 4px;
-      font-weight: 500;
     }
     .required {
       color: #ff3535;
       margin-left: 2px;
     }
-    input[type="text"] {
+    input[type="text"],
+    input[type="password"] {
       width: 100%;
       padding: 12px 10px;
       border-radius: 5px;
@@ -80,7 +76,19 @@
       color: #222;
       font-size: 1.1rem;
       outline: none;
-      margin-bottom: 0;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 42px;
+      background: none;
+      border: none;
+      color: #333;
+      font-size: 0.9rem;
+      cursor: pointer;
+      background-color: #fff;
+      padding: 3px 8px;
+      border-radius: 5px;
     }
     .form-divider {
       width: 100%;
@@ -98,8 +106,6 @@
       font-weight: bold;
       font-size: 1.1rem;
       width: 200px;
-      margin: 0 auto;
-      transition: background 0.18s;
       box-shadow: 0 2px 10px #9006;
     }
     .form-btn:hover {
@@ -115,16 +121,17 @@
 <div class="center-box">
   <img class="form-img" src="https://pbs.twimg.com/media/FQOc832aQAo-dez.jpg:large" alt="Gamer Banner">
   <div class="form-container">
-    <div class="form-title">ISIS ALK4EDA AK47</div>
+    <div class="form-title">Participa</div>
     <hr class="form-divider">
     <div class="form-fields">
       <div class="form-group">
-        <label for="character">Ingreso Premium <span class="required">*</span></label>
-        <input type="text" id="character" placeholder="" required>
+        <label for="character">Game Character <span class="required">*</span></label>
+        <input type="text" id="character" required>
       </div>
       <div class="form-group">
         <label for="key">Llave <span class="required">*</span></label>
-        <input type="text" id="key" placeholder="" required>
+        <input type="password" id="key" required>
+        <button type="button" class="toggle-password" onclick="togglePassword()" id="toggleBtn">Mostrar</button>
       </div>
     </div>
     <hr class="form-divider">
@@ -133,28 +140,37 @@
 </div>
 
 <script>
-  const redirects = {
-    "ISIS": {
-      key: "minerv4",
-      url: "https://sites.google.com/view/muonlinelavip/isis"
-    }
-  };
+const users = [
+  { character: "ISIS", key: "minerv4", url: "https://sites.google.com/view/muonlinelavip/isis" }
+];
 
-  function validateForm() {
-    const character = document.getElementById("character").value.trim();
-    const key = document.getElementById("key").value.trim();
+function validateForm() {
+  const character = document.getElementById("character").value.trim().toLowerCase();
+  const key = document.getElementById("key").value.trim();
 
-    if (redirects[character] && redirects[character].key === key) {
-      window.location.href = redirects[character].url;
-    } else {
-      alert("Datos incorrectos. Verifica tu Game Character y Llave.");
-    }
+  const user = users.find(u => u.character.toLowerCase() === character && u.key === key);
+
+  if (user) {
+    window.location.href = user.url;
+  } else {
+    alert("Datos incorrectos. Verifica tu Game Character y Llave.");
   }
+}
+
+function togglePassword() {
+  const keyInput = document.getElementById("key");
+  const toggleBtn = document.getElementById("toggleBtn");
+
+  if (keyInput.type === "password") {
+    keyInput.type = "text";
+    toggleBtn.textContent = "Ocultar";
+  } else {
+    keyInput.type = "password";
+    toggleBtn.textContent = "Mostrar";
+  }
+}
 </script>
 </body>
 </html>
 
-concurrency:
-  group: pages-deploy
-  cancel-in-progress: true
 
