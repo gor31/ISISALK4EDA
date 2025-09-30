@@ -119,7 +119,7 @@
 </head>
 <body>
 <div class="center-box">
-  <img class="form-img" src="https://pbs.twimg.com/media/FQOc832aQAo-dez.jpg:large" alt="Gamer Banner">
+  <img class="form-img" src="https://pbs.twimg.com/media/FQOc832aQAo-dez.jpg" alt="Gamer Banner">
   <div class="form-container">
     <div class="form-title">ISIS ALK4EDA AK47</div>
     <hr class="form-divider">
@@ -140,33 +140,38 @@
 </div>
 
 <script>
-const users = [
-  { character: "ISIS", key: "f4lcon3", url: "https://sites.google.com/view/muonlinelavip/x31lslsx3" },
-  { character: "TEMPLEX", key: "atic4", url: "https://sites.google.com/view/muonlinelavip/x2wtemplexxs" },
-  { character: "K4MIKAZE", key: "morrig4n", url: "https://sites.google.com/view/muonlinelavip/w2k4mikazexqs" },
-  { character: "THORDIS", key: "pl3xe", url: "https://sites.google.com/view/muonlinelavip/copia-de-x32x1gh3lsx3" },
-  { character: "ALK4EDA", key: "4chis", url: "https://sites.google.com/view/muonlinelavip/ax23mx3ss" },
-  { character: "LEONARDO", key: "l4v3", url: "https://sites.google.com/view/muonlinelavip/x32x12dxgh3lsx3" }
-];
-
-
-function validateForm() {
-  const character = document.getElementById("character").value.trim().toLowerCase();
+async function validateForm() {
+  const character = document.getElementById("character").value.trim();
   const key = document.getElementById("key").value.trim();
 
-  const user = users.find(u => u.character.toLowerCase() === character && u.key === key);
+  if (!character || !key) {
+    alert("Completa todos los campos.");
+    return;
+  }
 
-  if (user) {
-    window.location.href = user.url;
-  } else {
-    alert("Datos incorrectos. Verifica tu Game Character y Llave.");
+  try {
+    const response = await fetch('https://script.google.com/macros/s/TU_URL_DE_APPS_SCRIPT_AQUI/exec', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ character, key })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      window.location.href = data.redirect;
+    } else {
+      alert(data.message || "Datos incorrectos. Verifica tu Game Character y Llave.");
+    }
+  } catch (err) {
+    alert("Error de conexión. Intenta de nuevo.");
+    console.error(err);
   }
 }
 
 function togglePassword() {
   const keyInput = document.getElementById("key");
   const toggleBtn = document.getElementById("toggleBtn");
-
   if (keyInput.type === "password") {
     keyInput.type = "text";
     toggleBtn.textContent = "Ocultar";
@@ -178,6 +183,7 @@ function togglePassword() {
 </script>
 </body>
 </html>
+
 
 
 
