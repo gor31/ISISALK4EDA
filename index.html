@@ -139,17 +139,47 @@
   </div>
 </div>
 
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
 <script>
-const _u = ["ISIS","TEMPLEX","K4MIKAZE","THORDIS","ALK4EDA","LEONARDO"];
-const _k = ["f4lcon3","atic4","morrig4n","pl3xe","4chis","l4v3"];
-const _r = [
-  "https://sites.google.com/view/muonlinelavip/x31lslsx3",
-  "https://sites.google.com/view/muonlinelavip/x2wtemplexxs",
-  "https://sites.google.com/view/muonlinelavip/w2k4mikazexqs",
-  "https://sites.google.com/view/muonlinelavip/copia-de-x32x1gh3lsx3",
-  "https://sites.google.com/view/muonlinelavip/ax23mx3ss",
-  "https://sites.google.com/view/muonlinelavip/x32x12dxgh3lsx3"
-];
+  // Configuración de Firebase (copia desde Project Settings)
+  const firebaseConfig = {
+    apiKey: "AIzaSyBtMuIz6UwL8I22jnXi5hMQQzwdHOpwDRA",
+    authDomain: "isis-bebda.firebaseapp.com",
+    projectId: "isis-bebda",
+    storageBucket: "isis-bebda.appspot.com",
+    messagingSenderId: "575217808819",
+    appId: "1:575217808819:web:4bfe115f40b95ce721c7c6",
+    measurementId: "G-BWDNFR62HX"
+  };
+  firebase.initializeApp(firebaseConfig);
+
+  async function validateForm() {
+    const user = document.getElementById("character").value.trim();
+    const pass = document.getElementById("key").value.trim();
+    if (!user || !pass) { alert("Completa los campos."); return; }
+
+    // Convertimos el nombre de usuario en un correo ficticio
+    const email = user.toLowerCase() + "@vip.com";
+
+    try {
+      await firebase.auth().signInWithEmailAndPassword(email, pass);
+      // Redirigimos a la página única (todas son iguales)
+      window.location.href = "https://sites.google.com/view/muonlinelavip/x31lslsx3";
+    } catch (error) {
+      alert("Usuario o clave incorrectos.");
+    }
+  }
+
+  function togglePassword() {
+    const i = document.getElementById("key");
+    const b = document.getElementById("toggleBtn");
+    i.type = i.type === "password" ? "text" : "password";
+    b.textContent = i.type === "password" ? "Mostrar" : "Ocultar";
+  }
+</script>
 
 function validateForm() {
   const c = document.getElementById("character").value.trim();
@@ -176,6 +206,7 @@ function togglePassword() {
 </script>
 </body>
 </html>
+
 
 
 
